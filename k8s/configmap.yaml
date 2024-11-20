@@ -31,7 +31,7 @@ data:
     MONGODB_PASSWORD="admin"
     MONGODB_TIMEOUT="10"
     MONGODB_URI="mongodb+srv://admin:admin@proptuity-mongo-db.naexi.mongodb.net/go-mongodb?retryWrites=true&w=majority&authSource=admin"
-    MONGODB_URI_SRV="mongodb+srv://admin:admin@proptuity-mongo-db.naexi.mongodb.net/?retryWrites=true&w=majority&appName=proptuity-mongo-db"
+    MONGODB_URI_SRV="proptuity-mongo-db.naexi.mongodb.net/?retryWrites=true&w=majority&appName=proptuity-mongo-db"
     MONGODB_USER_COLLECTION="app_users"
     MONGODB_USERNAME="admin"
     TIMEZONE="America/New_York"
