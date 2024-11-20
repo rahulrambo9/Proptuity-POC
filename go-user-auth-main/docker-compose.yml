@@ -1,0 +1,67 @@
+version: "3"
+services:
+    user-auth-api-air:
+        image: cosmtrek/air:latest
+        container_name: user-auth-api-air
+        working_dir: /go/src
+        ports:
+        - "3084:3000"
+        volumes:
+        - ./src/:/go/src
+        networks:
+            - backend_network
+        environment:
+            - APP_CODE=PROPTUITY
+            - APP_ENV=dev
+            - APP_KEY=xlHF31NEOliBJCoOW9tvZg7TkHcAZI8a
+            - LOG_LEVEL=DEBUG
+            - APP_PORT=3000
+            - TIMEZONE=America/New_York
+            - APP_BASE_URL=localhost:3020
+            - APP_VERSION=0.0.1
+
+    mongodb:
+        image: mongo:latest
+        container_name: go-mongodb
+        environment:
+            MONGO_INITDB_ROOT_USERNAME: admin
+            MONGO_INITDB_ROOT_PASSWORD: admin
+            # MONGO_INITDB_ROOT_USERNAME: ${MONGODB_USERNAME}
+            # MONGO_INITDB_ROOT_PASSWORD: ${MONGODB_PASSWORD}
+        ports:
+        - "27017:27017"
+        volumes:
+            - mongodb_data:/data/db
+        networks:
+            - backend_network
+    
+    user-auth-api:
+        build: .
+        restart: always
+        container_name: user-auth-api
+        ports:
+            - "3010:3000"
+        volumes:
+            - ./src/:/go/src
+        # environment:
+        #   PORT: ${PORT}
+        #   MONGODB_USERNAME: ${MONGODB_USERNAME}
+        #   MONGODB_PASSWORD: ${MONGODB_PASSWORD}
+        #   MONGODB_URI: ${MONGODB_URI}
+        #   MONGODB_DB_NAME: ${MONGODB_DB_NAME}
+        #   MONGODB_USER_COLLECTION: ${MONGODB_USER_COLLECTION}
+        #   MONGODB_TIMEOUT: ${MONGODB_TIMEOUT}
+        networks:
+            - backend_network
+        depends_on:
+            - mongodb
+        
+volumes:
+  mongodb_data:
+
+networks:
+    backend_network:
+        driver: bridge
+        external: true
+        name: proptuity_backend_network
+

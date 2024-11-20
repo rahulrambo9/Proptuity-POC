@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Signup</title>
+    <style>
+        .hidden {
+            display: none;
+        }
+    </style>
+    <script>
+        function toggleProfessionalFields() {
+            var professionalSection = document.getElementById('professional-section');
+            var landlordRadio = document.getElementById('landlord');
+            if (landlordRadio.checked) {
+                professionalSection.classList.remove('hidden');
+            } else {
+                professionalSection.classList.add('hidden');
+            }
+        }
+    </script>
+</head>
+<body>
+    <h1>Signup</h1>
+    <form action="/signup" method="POST">
+        <label for="email">Email:</label><br>
+        <input type="email" id="email" name="email" required><br><br>
+        
+        <label for="password">Password:</label><br>
+        <input type="password" id="password" name="password" required><br><br>
+
+        <label>
+            <input type="radio" name="user_type" value="general" id="general" onclick="toggleProfessionalFields()"> 
+            I am not a landlord or industry professional
+        </label><br>
+
+        <label>
+            <input type="radio" name="user_type" value="landlord" id="landlord" onclick="toggleProfessionalFields()"> 
+            I am a landlord or industry professional
+        </label><br><br>
+
+        <div id="professional-section" class="hidden">
+            <label for="professional_type">Professional type:</label><br>
+            <input type="text" id="professional_type" name="professional_type"><br><br>
+
+            <label for="first_name">First name:</label><br>
+            <input type="text" id="first_name" name="first_name"><br><br>
+
+            <label for="last_name">Last name:</label><br>
+            <input type="text" id="last_name" name="last_name"><br><br>
+
+            <label for="zip">Zip/Postal code:</label><br>
+            <input type="text" id="zip" name="zip"><br><br>
+
+            <label for="phone">Phone number:</label><br>
+            <input type="tel" id="phone" name="phone"><br><br>
+        </div>
+
+        <input type="submit" value="Signup">
+    </form>
+</body>
+</html>
