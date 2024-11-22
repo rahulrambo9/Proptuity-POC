@@ -1,0 +1,39 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: my-configmap-dev
+  namespace: proptuity-dev
+data:
+  .env: |
+    API_TIMEOUT="10"
+    APP_BASE_URL="localhost:3021"
+    APP_CODE="proptuity"
+    APP_ENV="dev"
+    APP_KEY="xlHF31NEOliBJCoOW9tvZg7TkHcAZI8a"
+    APP_PORT="3000"
+    AUTHENTICATOR_KEY="2gSTOux1IPXm7SmU92X9NmzUv2s9RN1OXToAm1xh3U3IYtMK1K"
+    AWS_BUCKET=""
+    CENTRAL_REDIS_HOST="central-redis"
+    CENTRAL_REDIS_PASS=""
+    CENTRAL_REDIS_PORT="6379"
+    CLIENT_ID="go-mongodb"
+    CLIENT_SECRET="jLE-rZpTAy1auChkXTFWDpMsMdlpse2jy-v30nnsr2Q="
+    IV_VAL="7MyaxP6pFk05AvRU"
+    JWT_SECRET="nxvuSaH2bD1bZw4hMHGGuUH/w35KtF6qdQqlIH/p4EI="
+    LOCAL_REDIS_HOST="proptuity-redis"
+    LOCAL_REDIS_PASS=""
+    LOCAL_REDIS_PORT="6379"
+    LOG_FORMAT="JSON"
+    LOG_PATH="storage/logs"
+    MONGODB_DB_NAME="go-mongodb"
+    MONGODB_ECDSA_KEYS="ecdsa_keys"
+    MONGODB_INSTANCE_LOCATION="ATLAS" 
+    MONGODB_PASSWORD="admin"
+    MONGODB_TIMEOUT="10"
+    MONGODB_URI="mongodb+srv://admin:admin@proptuity-mongo-db.naexi.mongodb.net/go-mongodb?retryWrites=true&w=majority&authSource=admin"
+    MONGODB_URI_SRV="proptuity-mongo-db.naexi.mongodb.net/?retryWrites=true&w=majority&appName=go-mongodb"
+    MONGODB_USER_COLLECTION="app_users"
+    MONGODB_USERNAME="admin"
+    TIMEZONE="America/New_York"
+    USER_ID_CACHE_TTL="7200"
+    DNS="http://localhost:3084"

@@ -1,0 +1,38 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: ingress-ext
+  namespace: proptuity-dev
+  annotations:
+    kubernetes.io/ingress.class: "gce"  # Ensure this matches your ingress controller
+    kubernetes.io/ingress.global-static-ip-name: "gke-dev-ingress-ext-ip"  # Use a reserved static IP
+    # ingress.kubernetes.io/healthcheck-path: /user-auth/apphealth
+spec:
+  rules:
+  - host: dev.proptuity.com
+    http:
+      paths:
+      - path: /
+        pathType: ImplementationSpecific
+        backend:
+          service:
+            name: frontend-service
+            port:
+              number: 80
+      - path: /user-auth/*
+        pathType: ImplementationSpecific
+        backend:
+          service:
+            name: user-auth-api-service
+            port:
+              number: 3000
+
+          
+# For GKE clusters running versions earlier than 1.21.3-gke.1600, the only supported value for the pathType field is ImplementationSpecific. 
+# For clusters running version 1.21.3-gke.1600 or later, Prefix and Exact values are also supported for pathType.
+
+
+
+
+
+

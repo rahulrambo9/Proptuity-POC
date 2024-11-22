@@ -1,0 +1,55 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: user-auth-deployment-dev
+  namespace: proptuity-dev
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: user-auth-api
+  template:
+    metadata:
+      labels:
+        app: user-auth-api
+    spec:
+      containers:
+      - name: user-auth-api
+        image: rahulrambo9/user-auth-prop:v4
+        envFrom:
+        - configMapRef:
+            name: my-configmap-dev  # Reference the dev ConfigMap here
+        resources:
+          requests:
+            memory: "512Mi"   # Minimum memory request: 512 MiB
+            cpu: "250m"       # Minimum CPU request: 0.25 CPU (250 millicores)
+          limits:
+            memory: "1Gi"     # Maximum memory limit: 1 GiB
+            cpu: "500m"       # Maximum CPU limit: 0.5 CPU (500 millicores)
+        volumeMounts:
+        - name: env-file
+          mountPath: /src/.env
+          subPath: .env  # Mount the .env file from the ConfigMap to /src/.env
+        - name: env-file
+          mountPath: /src/tmp/.env
+          subPath: .env  # Mount the .env file to /src/tmp/.env
+        - name: env-file
+          mountPath: /.env
+          subPath: .env  # Mount the .env file to /.env
+        readinessProbe:
+          httpGet:
+            path: /user-auth/apphealth  # Health endpoint
+            port: 3000                  # Application port
+          initialDelaySeconds: 5
+          periodSeconds: 10
+        livenessProbe:                 # Optional liveness probe to ensure container health
+          httpGet:
+            path: /user-auth/apphealth
+            port: 3000
+          initialDelaySeconds: 10
+          periodSeconds: 10
+      volumes:
+      - name: env-file
+        configMap:
+          name: my-configmap-dev
+          optional: false

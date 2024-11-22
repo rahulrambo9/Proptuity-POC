@@ -8,6 +8,6 @@ spec:
     app: user-auth-api
   ports:
     - protocol: TCP
-      port: 80  # Exposing port 80 externally or for internal access
+      port: 3000  # Exposing port 80 externally or for internal access
       targetPort: 3000  # The port the application is actually listening on
   type: ClusterIP  # Internal access within the cluster

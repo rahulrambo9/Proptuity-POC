@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: frontend-deployment
+  namespace: proptuity-dev
+  labels:
+    app: frontend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: frontend
+  template:
+    metadata:
+      labels:
+        app: frontend
+    spec:
+      containers:
+      - name: frontend-proptuity
+        image: rahulrambo9/proptuity-sample-frontend:v1 
+        ports:
+        - containerPort: 80
+        resources:
+          requests:
+            memory: "512Mi"   # Minimum memory request: 512 MiB
+            cpu: "250m"       # Minimum CPU request: 0.25 CPU (250 millicores)
+          limits:
+            memory: "1Gi"     # Maximum memory limit: 1 GiB
+            cpu: "500m"       # Maximum CPU limit: 0.5 CPU (500 millicores)

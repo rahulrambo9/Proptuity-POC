@@ -1,0 +1,1 @@
+mongosh "mongodb+srv://admin:admin@proptuity-mongo-db.naexi.mongodb.net/?retryWrites=true&w=majority&appName=go-mongodb"
