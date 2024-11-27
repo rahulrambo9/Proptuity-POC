@@ -15,7 +15,11 @@ spec:
     spec:
       containers:
       - name: user-auth-api
-        image: rahulrambo9/user-auth-prop:v4
+        image: rahulrambo9/user-auth-prop:v5
+        securityContext:
+          capabilities:
+            add:
+            - NET_RAW
         envFrom:
         - configMapRef:
             name: my-configmap-dev  # Reference the dev ConfigMap here
@@ -40,14 +44,14 @@ spec:
           httpGet:
             path: /user-auth/apphealth  # Health endpoint
             port: 3000                  # Application port
-          initialDelaySeconds: 5
-          periodSeconds: 10
+          # initialDelaySeconds: 10
+          # periodSeconds: 10
         livenessProbe:                 # Optional liveness probe to ensure container health
           httpGet:
             path: /user-auth/apphealth
             port: 3000
-          initialDelaySeconds: 10
-          periodSeconds: 10
+          # initialDelaySeconds: 10
+          # periodSeconds: 10
       volumes:
       - name: env-file
         configMap:

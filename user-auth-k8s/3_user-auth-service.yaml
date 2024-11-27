@@ -3,11 +3,29 @@ kind: Service
 metadata:
   name: user-auth-api-service
   namespace: proptuity-dev
+  annotations: 
+    cloud.google.com/neg: '{"ingress": true}'
+    cloud.google.com/backend-config: '{"default": "http-hc-config"}'
 spec:
   selector:
     app: user-auth-api
+  type: NodePort
   ports:
-    - protocol: TCP
-      port: 3000  # Port exposed by the service for cluster access
-      targetPort: 3000 # Matches the application's internal listening port eg. APP_PORT=3000 in application
-  type: NodePort  # Internal access within the cluster
+    - port: 3000
+      targetPort: 3000
+      protocol: TCP
+      nodePort: 30218
+
+---
+
+apiVersion: cloud.google.com/v1
+kind: BackendConfig
+metadata:
+  name: http-hc-config
+  namespace: proptuity-dev
+spec:
+  healthCheck:
+    checkIntervalSec: 15
+    port: 3000
+    type: HTTP
+    requestPath: /user-auth/apphealth

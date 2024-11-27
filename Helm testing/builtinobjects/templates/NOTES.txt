@@ -1,0 +1,10 @@
+{{/*  this is comment line # Root object  */}}
+
+root objects
+{{/*  release objects */}}
+
+Release Name : {{ .Release.Name }}
+Release Namespace: {{ .Release.Namespace }}
+Release IsUpgrade: {{ .Release.IsUpgrade }}
+Release IsInstall: {{ .Release.IsInstall }}
+Release Revision: {{ .Release.Revision }}
