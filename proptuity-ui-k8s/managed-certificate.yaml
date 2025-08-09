@@ -1,0 +1,8 @@
+apiVersion: networking.gke.io/v1
+kind: ManagedCertificate
+metadata:
+  name: propt-managed-cert
+  namespace: proptuity-dev
+spec:
+  domains:
+    - dev.proptuity.com  # Replace with your actual domain

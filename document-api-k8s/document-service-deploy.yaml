@@ -1,0 +1,56 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: document-service-deployment
+  namespace: proptuity-dev
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: document-service
+  template:
+    metadata:
+      labels:
+        app: document-service
+    spec:
+      containers:
+        - name: document-service-container
+          image: rahulrambo9/proptuity-document-service:v1
+          ports:
+            - containerPort: 8081
+          resources:
+            requests:
+              memory: "256Mi"
+              cpu: "200m"
+            limits:
+              memory: "512Mi"
+              cpu: "500m"
+          env:
+            - name: SPRING_PROFILES_ACTIVE
+              value: "production"
+            - name: GOOGLE_APPLICATION_CREDENTIALS
+              value: "/app/gcs-storage.json"
+          envFrom:
+            - configMapRef:
+                name: document-service-config
+          # volumeMounts:
+          #   - name: gcs-credentials
+          #     mountPath: /app/gcs-storage.json
+          #     subPath: gcs-storage.json
+          #     readOnly: true
+      # volumes:
+      #   - name: gcs-credentials
+      #     secret:
+      #       secretName: gcs-credentials
+          livenessProbe:
+            httpGet:
+              path: /document-service/actuator/health
+              port: 8081
+            initialDelaySeconds: 60
+            periodSeconds: 30
+          readinessProbe:
+            httpGet:
+              path: /document-service/actuator/health
+              port: 8081
+            initialDelaySeconds: 50
+            periodSeconds: 10

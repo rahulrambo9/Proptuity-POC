@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: proptuity-ui-config
+  namespace: proptuity-dev
+data:
+  NODE_ENV: "production"
+  # Add other environment variables as needed
+  # API_BASE_URL: "https://your-api-url"
+  # KAFKA_BROKER_URL: "kafka-cluster-kafka-bootstrap:9092"

@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: frontend-svc-dev
+  namespace: proptuity-dev
+spec:
+  selector:
+    app: proptuity-ui
+  ports:
+    - protocol: TCP
+      port: 80         # Exposed service port
+      targetPort: 3000 # Container port
+  type: ClusterIP

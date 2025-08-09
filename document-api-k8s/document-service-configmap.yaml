@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: document-service-config
+  namespace: proptuity-dev
+data:
+  SPRING_KAFKA_BOOTSTRAP_SERVERS: "kafka-kraft-cluster-kafka-bootstrap.kafka.svc.cluster.local:9092"
+  SPRING_KAFKA_CONSUMER_GROUP_ID: "document-service-group"
+  SERVER_PORT: "8081"
+  SERVER_SERVLET_CONTEXT_PATH: "/document-service"
+  SPRING_AUTOCONFIGURE_EXCLUDE: "com.google.cloud.spring.autoconfigure.core.GcpContextAutoConfiguration,com.google.cloud.spring.autoconfigure.storage.GcsAutoConfiguration,com.google.cloud.spring.autoconfigure.secretmanager.GcpSecretManagerAutoConfiguration,com.google.cloud.spring.autoconfigure.storage.GcpStorageAutoConfiguration"

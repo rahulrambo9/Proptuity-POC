@@ -1,0 +1,79 @@
+Kafka cluster setup on kubernest.
+----------------------------------
+
+prerequisute:
+1. helm , kubectl and k8 cluster running
+2. Download strimzi operator helm charts
+3. Install the Strimzi operator in a separate namespace from the Kafka cluster and other Kafka components it manages, to ensure clear separation of resources and configurations. eg I am using "Strimzi" namespace for strimzi operator and "kafka" namespace for kafka cluster and other components.
+
+Note: Use a single Strimzi operator to manage all your Kafka instances within a Kubernetes cluste
+
+
+Step 1:
+--------------------------------------
+❯ kubectl create ns kafka
+namespace/kafka created
+
+
+❯ kubectl create ns strimzi
+namespace/strimzi created
+-------------------------------------
+
+
+Step 2: Add "kafka" namespace in strimzi operator's values.yaml:
+-------------------------------------
+# values.yaml
+watchNamespaces:
+  - kafka
+watchAnyNamespace: false
+-------------------------------------
+
+
+Step 3: Install strimzi operator 
+-------------------------------------
+Example configuration that installs a specific version of the Cluster Operator and changes the number of replicas
+❯ helm install strimzi-cluster-operator --set replicas=2 --version 0.35.0 oci://quay.io/strimzi-helm/strimzi-kafka-operator
+
+In my case I deployed using value.yaml 
+
+❯ helm install strimzi-kafka-operator -n strimzi -f .\values.yaml .
+
+NAME: strimzi-cluster-operator
+LAST DEPLOYED: Sun Apr 13 12:58:31 2025
+NAMESPACE: strimzi
+STATUS: deployed
+REVISION: 1
+TEST SUITE: None
+NOTES:
+Thank you for installing strimzi-kafka-operator-0.45.0
+
+To create a Kafka cluster refer to the following documentation.
+
+https://strimzi.io/docs/operators/latest/deploying.html#deploying-cluster-operator-helm-chart-str
+-------------------------------------
+
+❯ kubectl get all -n strimzi
+NAME                                            READY   STATUS    RESTARTS   AGE
+pod/strimzi-cluster-operator-579cf8bcb7-8nj9b   1/1     Running   0          52s
+
+NAME                                       READY   UP-TO-DATE   AVAILABLE   AGE
+deployment.apps/strimzi-cluster-operator   1/1     1            1           54s
+
+NAME                                                  DESIRED   CURRENT   READY   AGE
+replicaset.apps/strimzi-cluster-operator-579cf8bcb7   1         1         1       55s
+
+----------------------------------------------------------
+
+step 4: Install Kraft or zookeeper cluster.
+
+❯ kubectl apply -f .\kraft-kafka_cluster.yaml
+kafkanodepool.kafka.strimzi.io/kraft-controller created
+kafkanodepool.kafka.strimzi.io/kraft-broker created
+kafka.kafka.strimzi.io/kafka-kraft-cluster created
+
+D:\kraft-kafka_proptuity on ☁️  (us-west-2) took 4s
+❯ kubectl get po -n kafka
+NAME                                     READY   STATUS    RESTARTS   AGE
+kafka-kraft-cluster-kraft-broker-0       0/1     Pending   0          2m28s
+kafka-kraft-cluster-kraft-broker-1       0/1     Pending   0          2m27s
+kafka-kraft-cluster-kraft-controller-2   0/1     Pending   0          2m27s
